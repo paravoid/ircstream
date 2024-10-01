@@ -22,9 +22,15 @@ The server has been designed to be as cloud-native as an IRC server can be. It e
 [Prometheus](https://prometheus.io/) protocol, logs to `stdout`, and can optionally log in JSON as well, using a
 structured format to allow easy ingestion into modern log pipelines.
 
-It currently requires messages to be broadcast over UDP to a specified port using the so-called `RC2UDP` protocol: each
-UDP message is expected to be a channel name, followed by a tab character, followed by the message to be sent to all
-clients.
+In the experimental SSE mode, it ingests events over the EventStreams service (`stream.wikimedia.org`) formats them
+using the existing legacy format and emits them to IRC clients. It is suitable for running in any environment, as it has
+no further requirements beyond internet access. Note that despite all efforts, due to various EventStreams limitations,
+messages may both be missing and/or formatted differently, and is therefore **not** recommended to use this mode in
+production.
+
+In RC2UDP mode, it requires messages to be broadcast over UDP to a specified port using the so-called `RC2UDP` protocol:
+each UDP message is expected to be a channel name, followed by a tab character, followed by the message to be sent to
+all clients. This mode is suitable for running in a production environment, alongside MediaWiki.
 
 # History
 

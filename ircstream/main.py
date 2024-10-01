@@ -135,7 +135,14 @@ async def start_servers(config: configparser.ConfigParser) -> None:
             logger.critical('Invalid configuration, missing section "irc"')
             raise SystemExit(-1)
 
-        if "rc2udp" in config:
+        if "sse" in config:
+            from .sse import SSEBroadcaster
+
+            sse_coro = SSEBroadcaster(config["sse"], ircserver).run()
+            sse_task = asyncio.create_task(sse_coro)
+            background_tasks.add(sse_task)
+            sse_task.add_done_callback(background_tasks.discard)
+        elif "rc2udp" in config:
             from .rc2udp import RC2UDPServer
 
             rc2udp_coro = RC2UDPServer(config["rc2udp"], ircserver).serve()
@@ -143,7 +150,7 @@ async def start_servers(config: configparser.ConfigParser) -> None:
             background_tasks.add(rc2udp_task)
             rc2udp_task.add_done_callback(background_tasks.discard)
         else:
-            logger.warning("RC2UDP is not enabled in the config; server usefulness may be limited")
+            logger.warning("Neither RC2UDP nor SSE are enabled in the config; server usefulness may be limited")
 
         if "prometheus" in config:
             from .prometheus import PrometheusServer
