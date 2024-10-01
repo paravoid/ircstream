@@ -1,0 +1,39 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://ca.wikipedia.org/wiki/George_Blagden",
+    "request_id": "52f5f637-7866-43f8-a09b-54f7d8902c22",
+    "id": "bcfdcdbf-f59c-4725-b884-36e5b3302d09",
+    "dt": "2024-10-01T22:08:17Z",
+    "domain": "ca.wikipedia.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "codfw.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 1136213545
+  },
+  "id": 128015173,
+  "type": "edit",
+  "namespace": 0,
+  "title": "George Blagden",
+  "title_url": "https://ca.wikipedia.org/wiki/George_Blagden",
+  "comment": "",
+  "timestamp": 1727820497,
+  "user": "Suc de pinya",
+  "bot": false,
+  "notify_url": "https://ca.wikipedia.org/w/index.php?diff=34067125&oldid=34067114&rcid=128015173",
+  "minor": true,
+  "patrolled": false,
+  "length": {
+    "old": 8995,
+    "new": 9029
+  },
+  "revision": {
+    "old": 34067114,
+    "new": 34067125
+  },
+  "server_url": "https://ca.wikipedia.org",
+  "server_name": "ca.wikipedia.org",
+  "server_script_path": "/w",
+  "wiki": "cawiki",
+  "parsedcomment": ""
+}

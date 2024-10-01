@@ -1,0 +1,29 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://commons.wikimedia.org/wiki/Category:Cultural_heritage_monuments_in_Norway_with_known_IDs",
+    "request_id": "92fd0394-caf4-4c40-97e3-3a48b655d193",
+    "id": "f5153162-7489-441d-97fa-a00a16b8fb84",
+    "dt": "2024-10-01T22:08:17Z",
+    "domain": "commons.wikimedia.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "codfw.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 1136213507
+  },
+  "id": 2608091849,
+  "type": "categorize",
+  "namespace": 14,
+  "title": "Category:Cultural heritage monuments in Norway with known IDs",
+  "title_url": "https://commons.wikimedia.org/wiki/Category:Cultural_heritage_monuments_in_Norway_with_known_IDs",
+  "comment": "[[:File:SUNNDALSØRA Sunndal Norway 2024-09 HOV KIRKE kyrkje (wooden church Holtermann Nordan 300 seats) INTERIOR Prekestol (pulpit) blomster krans etter begravelsesseremoni (flowers after funeral service) Koret Altertavle (altarpiece) etc IMG.jpg]] added to category",
+  "timestamp": 1727820497,
+  "user": "Wolfmann",
+  "bot": false,
+  "notify_url": "https://commons.wikimedia.org/w/index.php?diff=931281112&oldid=0&rcid=2608091849",
+  "server_url": "https://commons.wikimedia.org",
+  "server_name": "commons.wikimedia.org",
+  "server_script_path": "/w",
+  "wiki": "commonswiki",
+  "parsedcomment": "<a href=\"/wiki/File:SUNNDALS%C3%98RA_Sunndal_Norway_2024-09_HOV_KIRKE_kyrkje_(wooden_church_Holtermann_Nordan_300_seats)_INTERIOR_Prekestol_(pulpit)_blomster_krans_etter_begravelsesseremoni_(flowers_after_funeral_service)_Koret_Altertavle_(altarpiece)_etc_IMG.jpg\" title=\"File:SUNNDALSØRA Sunndal Norway 2024-09 HOV KIRKE kyrkje (wooden church Holtermann Nordan 300 seats) INTERIOR Prekestol (pulpit) blomster krans etter begravelsesseremoni (flowers after funeral service) Koret Altertavle (altarpiece) etc IMG.jpg\">File:SUNNDALSØRA Sunndal Norway 2024-09 HOV KIRKE kyrkje (wooden church Holtermann Nordan 300 seats) INTERIOR Prekestol (pulpit) blomster krans etter begravelsesseremoni (flowers after funeral service) Koret Altertavle (altarpiece) etc IMG.jpg</a> added to category"
+}

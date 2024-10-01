@@ -1,0 +1,36 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://en.wikipedia.org/wiki/Template:AFC_statistics/pending",
+    "request_id": "XebpBApAEMIAABMXBvkAAADT",
+    "id": "201de526-d3e5-4154-be32-c100ac37f336",
+    "dt": "2019-12-03T23:00:20Z",
+    "domain": "en.wikipedia.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "eqiad.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 2009831377
+  },
+  "id": 1210503344,
+  "type": "edit",
+  "namespace": 10,
+  "title": "Template:AFC statistics/pending",
+  "comment": "[[WP:Bots|Bot]] · [[User:EarwigBot#Task 2|Task 2]] · Updating statistics for [[WP:WPAFC|WikiProject Articles for creation]].",
+  "timestamp": 1575414020,
+  "user": "EarwigBot",
+  "bot": true,
+  "minor": true,
+  "length": {
+    "old": 610892,
+    "new": 610013
+  },
+  "revision": {
+    "old": 929136289,
+    "new": 929143609
+  },
+  "server_url": "https://en.wikipedia.org",
+  "server_name": "en.wikipedia.org",
+  "server_script_path": "/w",
+  "wiki": "enwiki",
+  "parsedcomment": "<a href=\"/wiki/Wikipedia:Bots\" title=\"Wikipedia:Bots\">Bot</a> · <a href=\"/wiki/User:EarwigBot#Task_2\" title=\"User:EarwigBot\">Task 2</a> · Updating statistics for <a href=\"/wiki/Wikipedia:WPAFC\" class=\"mw-redirect\" title=\"Wikipedia:WPAFC\">WikiProject Articles for creation</a>."
+}

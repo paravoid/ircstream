@@ -1,0 +1,1 @@
+User attribute is missing. It was correctly emitted on irc.wikimedia.org. Likely an EventStreams bug.

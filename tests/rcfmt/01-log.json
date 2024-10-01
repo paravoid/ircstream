@@ -1,0 +1,36 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://en.wikipedia.org/wiki/Draft:The_News_Digest",
+    "request_id": "Xeb2HgpAICsAAA3wuV0AAABN",
+    "id": "dd5e1823-1249-48ea-b3cf-ede65c619c44",
+    "dt": "2019-12-03T23:56:15Z",
+    "domain": "en.wikipedia.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "eqiad.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 2009892714
+  },
+  "type": "log",
+  "namespace": 118,
+  "title": "Draft:The News Digest",
+  "comment": "",
+  "timestamp": 1575417375,
+  "user": "Youths Digest & The News Digest",
+  "bot": false,
+  "log_id": 0,
+  "log_type": "abusefilter",
+  "log_action": "hit",
+  "log_params": {
+    "action": "edit",
+    "filter": 148,
+    "actions": "warn",
+    "log": 25505615
+  },
+  "log_action_comment": "Youths Digest & The News Digest triggered [[Special:AbuseFilter/148|filter 148]], performing the action \"edit\" on [[Draft:The News Digest]]. Actions taken: Warn ([[Special:AbuseLog/25505615|details]])",
+  "server_url": "https://en.wikipedia.org",
+  "server_name": "en.wikipedia.org",
+  "server_script_path": "/w",
+  "wiki": "enwiki",
+  "parsedcomment": ""
+}

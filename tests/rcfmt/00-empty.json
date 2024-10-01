@@ -1,0 +1,13 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.1",
+  "meta": {
+    "dt": "2024-10-01T19:02:00.000Z",
+    "stream": "mediawiki.recentchange",
+    "domain": "canary",
+    "id": "2a0843b0-3509-46ea-a951-7bfb8889acfc",
+    "request_id": "0b250136-895b-4931-8ba5-4274623fe892",
+    "topic": "eqiad.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 5439726734
+  }
+}

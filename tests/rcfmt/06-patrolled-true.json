@@ -1,0 +1,39 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://fr.wiktionary.org/wiki/cioccarmi",
+    "request_id": "ee940e7d-72ef-44c8-b237-58f4374fcbdb",
+    "id": "f9b5773b-2f93-4f8e-87ad-a2d80910dc15",
+    "dt": "2024-10-01T22:08:18Z",
+    "domain": "fr.wiktionary.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "codfw.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 1136213509
+  },
+  "id": 55713190,
+  "type": "edit",
+  "namespace": 0,
+  "title": "cioccarmi",
+  "title_url": "https://fr.wiktionary.org/wiki/cioccarmi",
+  "comment": "+ pron.",
+  "timestamp": 1727820498,
+  "user": "DE8AH",
+  "bot": false,
+  "notify_url": "https://fr.wiktionary.org/w/index.php?diff=36117855&oldid=35605161&rcid=55713190",
+  "minor": false,
+  "patrolled": true,
+  "length": {
+    "old": 211,
+    "new": 227
+  },
+  "revision": {
+    "old": 35605161,
+    "new": 36117855
+  },
+  "server_url": "https://fr.wiktionary.org",
+  "server_name": "fr.wiktionary.org",
+  "server_script_path": "/w",
+  "wiki": "frwiktionary",
+  "parsedcomment": "+ pron."
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://commons.wikimedia.org/wiki/File:LL-Q809_(pol)-Olaf-wymy%C5%9Blno%C5%9B%C4%87.wav",
+    "request_id": "8a13cbc7-1309-4ba4-8f84-06484a239612",
+    "id": "73593b60-549b-4c30-9164-871d372c595b",
+    "dt": "2024-10-01T22:08:18Z",
+    "domain": "commons.wikimedia.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "codfw.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 1136213517
+  },
+  "id": 2608091866,
+  "type": "edit",
+  "namespace": 6,
+  "title": "File:LL-Q809 (pol)-Olaf-wymyślność.wav",
+  "title_url": "https://commons.wikimedia.org/wiki/File:LL-Q809_(pol)-Olaf-wymy%C5%9Blno%C5%9B%C4%87.wav",
+  "comment": "/* wbeditentity-update:0| */ automatically adding [[Commons:Structured data|structured data]] based on file information",
+  "timestamp": 1727820498,
+  "user": "SchlurcherBot",
+  "bot": true,
+  "notify_url": "https://commons.wikimedia.org/w/index.php?diff=931281121&oldid=903607558&rcid=2608091866",
+  "minor": false,
+  "patrolled": true,
+  "length": {
+    "old": 4586,
+    "new": 6551
+  },
+  "revision": {
+    "old": 903607558,
+    "new": 931281121
+  },
+  "server_url": "https://commons.wikimedia.org",
+  "server_name": "commons.wikimedia.org",
+  "server_script_path": "/w",
+  "wiki": "commonswiki",
+  "parsedcomment": "‎<span dir=\"auto\"><span class=\"autocomment\">Changed an entity: </span></span> automatically adding <a href=\"/wiki/Commons:Structured_data\" title=\"Commons:Structured data\">structured data</a> based on file information"
+}
