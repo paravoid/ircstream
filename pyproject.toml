@@ -39,7 +39,11 @@ dependencies = [
     "prometheus_client>=0.16.0",
     "structlog>=22.3.0",
 ]
+optional-dependencies.sse = [
+    "aiohttp-sse-client==0.2.1",
+]
 optional-dependencies.tests = [
+    "ircstream[sse]",
     "coverage[toml]",
     "pytest==7.*",
     "pytest-cov",
