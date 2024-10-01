@@ -1,0 +1,37 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://www.wikidata.org/wiki/Q130393024",
+    "request_id": "ba1688ee-a7d5-4abe-8f2d-ed1b6b5dc44c",
+    "id": "fd9cdf7b-3f2d-4100-a5ec-04aec0cbbb3b",
+    "dt": "2024-10-01T22:08:20Z",
+    "domain": "www.wikidata.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "codfw.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 1136213585
+  },
+  "id": 2322341979,
+  "type": "new",
+  "namespace": 0,
+  "title": "Q130393024",
+  "title_url": "https://www.wikidata.org/wiki/Q130393024",
+  "comment": "/* wbeditentity-create-item:0| */",
+  "timestamp": 1727820500,
+  "user": "Theilert",
+  "bot": false,
+  "notify_url": "https://www.wikidata.org/w/index.php?oldid=2255252704&rcid=2322341979",
+  "minor": false,
+  "patrolled": true,
+  "length": {
+    "new": 677
+  },
+  "revision": {
+    "new": 2255252704
+  },
+  "server_url": "https://www.wikidata.org",
+  "server_name": "www.wikidata.org",
+  "server_script_path": "/w",
+  "wiki": "wikidatawiki",
+  "parsedcomment": "‎<span dir=\"auto\"><span class=\"autocomment\">Opprettet et nytt element</span></span>"
+}

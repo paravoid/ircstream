@@ -1,0 +1,39 @@
+{
+  "$schema": "/mediawiki/recentchange/1.0.0",
+  "meta": {
+    "uri": "https://commons.wikimedia.org/wiki/File:1973_White_VW_Thing_@_2019_DC_Bug_Jam-02.jpg",
+    "request_id": "57453c69-484e-4b16-a40b-1e7591181af3",
+    "id": "e92a2e69-ec63-4cbd-a011-ee2c51cb4d4a",
+    "dt": "2024-10-01T22:08:18Z",
+    "domain": "commons.wikimedia.org",
+    "stream": "mediawiki.recentchange",
+    "topic": "codfw.mediawiki.recentchange",
+    "partition": 0,
+    "offset": 1136213547
+  },
+  "id": 2608091869,
+  "type": "edit",
+  "namespace": 6,
+  "title": "File:1973 White VW Thing @ 2019 DC Bug Jam-02.jpg",
+  "title_url": "https://commons.wikimedia.org/wiki/File:1973_White_VW_Thing_@_2019_DC_Bug_Jam-02.jpg",
+  "comment": "Removing from [[Category:November 2019 in Florida]]",
+  "timestamp": 1727820498,
+  "user": "Somegreenguy",
+  "bot": false,
+  "notify_url": "https://commons.wikimedia.org/w/index.php?diff=931281123&oldid=930720942&rcid=2608091869",
+  "minor": false,
+  "patrolled": false,
+  "length": {
+    "old": 4314,
+    "new": 4276
+  },
+  "revision": {
+    "old": 930720942,
+    "new": 931281123
+  },
+  "server_url": "https://commons.wikimedia.org",
+  "server_name": "commons.wikimedia.org",
+  "server_script_path": "/w",
+  "wiki": "commonswiki",
+  "parsedcomment": "Removing from <a href=\"/wiki/Category:November_2019_in_Florida\" title=\"Category:November 2019 in Florida\">Category:November 2019 in Florida</a>"
+}
