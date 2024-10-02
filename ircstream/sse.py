@@ -1,6 +1,6 @@
 """SSE component.
 
-Responsible for spawning an aiohttp client, that connects to the
+Responsible for spawning our custom HTTP SSE client, that connects to the
 stream.wikimedia.org SSE server, parse the JSON messages, and formats them
 according to the RecentChanges-to-IRC formatter.
 
@@ -15,14 +15,12 @@ from __future__ import annotations
 
 import asyncio
 import json
-from datetime import timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import aiohttp
-import aiohttp_sse_client.client  # type: ignore
-import attr
 import structlog
 
+from . import sse_client
 from .rcfmt import RecentChangeIRCFormatter
 
 if TYPE_CHECKING:
@@ -31,66 +29,6 @@ if TYPE_CHECKING:
     from .ircserver import IRCServer
 
 logger = structlog.get_logger()
-
-
-class RecentChangeSource(aiohttp_sse_client.client.EventSource):  # type: ignore
-    """API to the Wikimedia RecentChange stream.
-
-    This inherits the default EventSource and overloads it.
-    """
-
-    log = structlog.get_logger("ircstream.sse.source")
-
-    # store a last_event_id across all instances of RecentChangeSource
-    static_last_event_id = ""
-
-    async def connect(self, retry: int = 0) -> None:
-        """Overload connect, to provide more immediate reconnects."""
-        # restore last_event_id from the class variable, common across all instances
-        self._last_event_id = type(self).static_last_event_id
-        # replace exponential backoff with a fixed reconnection time
-        self._reconnection_time = timedelta(seconds=0.5)
-        # Always retry, i.e. never run out of retries
-        await super().connect(1)
-
-    def _dispatch_event(self) -> aiohttp_sse_client.client.MessageEvent | None:
-        """Parse the event with appropriate error handling, and dispatch it.
-
-        This is overloaded to:
-          * Skip non-message events, that we're not interested in
-          * Decode the JSON transparently, and provide a Pythonic API
-          * Update last_event_id to be the content of
-              data: { ..., meta: { ..., "topic":"...", "partition":0, "offset": NNNN } }
-            as that is offset-based rather than timestamp-based (like the main id is)
-        """
-        message: aiohttp_sse_client.client.MessageEvent = super()._dispatch_event()
-        if not message or message.type != "message":
-            return None
-
-        log = self.log.bind(message=message)
-        try:
-            # replace message.data from a str, to its JSON-decoded version (usually a dict)
-            # do so here rather than in the consumer, as we need to parse the JSON for metadata extraction anyway
-            # and it'd be quite inefficient and error prone to have to parse the json twice
-            data = json.loads(message.data)
-            message = attr.evolve(message, data=data)
-        except json.decoder.JSONDecodeError as exc:
-            log.warn("Could not parse JSON for message", err=str(exc))
-            return None
-        except Exception as exc:
-            log.warn("Unknown error while parsing", err=str(exc))
-            return None
-
-        try:
-            meta = message.data["meta"]
-            last_event_id = [{key: meta[key] for key in ("topic", "partition", "offset")}]
-        except KeyError:
-            log.warn("Could not parse the message metadata")
-        else:
-            self._last_event_id = json.dumps(last_event_id, separators=(",", ":"))
-            type(self).static_last_event_id = self._last_event_id
-
-        return message
 
 
 class SSEBroadcaster:
@@ -102,44 +40,90 @@ class SSEBroadcaster:
         self.ircserver = ircserver
         self.url = config.get("url", "https://stream.wikimedia.org/v2/stream/recentchange")
         self.log.info("Listening for SSE Events", sse_url=self.url)
+        self.last_event_id = ""
 
     async def run(self) -> None:
         """Entry point, run in a while True loop to make sure we never stop consuming events."""
         while True:
-            await self.loop()
+            await self.connect_and_consume()
+            await asyncio.sleep(1)
 
-    async def loop(self) -> None:
-        """Connect and continuously consume events from the event feed."""
+    async def connect_and_consume(self) -> None:
+        """Connect and continuously consume events from the event feed.
+
+        Does *not* handle reconnects. Callers are expected to reconnect by
+        reinitializing as necessary.
+        """
+        events = sse_client.EventSource(self.url, last_event_id=self.last_event_id)
         try:
-            async with RecentChangeSource(self.url) as events:
-                async for event in events:
-                    try:
-                        await self.parse_event(event)
-                    except Exception:
-                        self.log.warn("Could not parse event:", rc=event, exc_info=True)
+            await events.connect()
+            async for event in events:
+                try:
+                    data = await self.parse_event(event)
+                    if not data:
                         continue
-        except aiohttp.client_exceptions.ClientError as exc:
-            self.log.critical("SSE client connection error", exc=str(exc))
+                    await self.format_and_emit(data)
+                except Exception:
+                    self.log.warn("Could not parse event:", rc=event, exc_info=True)
+                    continue
+        except ConnectionError as exc:
+            self.log.warning("SSE client connection error", exc=str(exc))
         except aiohttp.http_exceptions.TransferEncodingError:
             # "Not enough data for satisfy transfer length header."
-            self.log.debug("SSE in-flight disconnect, reconnecting")
+            self.log.debug("Connection lost")
+        except aiohttp.client_exceptions.ClientPayloadError as exc:
+            if "TransferEncodingError" in str(exc):
+                # <ClientPayloadError: Response payload is not completed: <TransferEncodingError: 400,
+                # message='Not enough data for satisfy transfer length header.'>>
+                self.log.debug("Connection lost (payload error)")
+            else:
+                self.log.warning("HTTP client payload error", exc=str(exc))
+        except aiohttp.client_exceptions.ClientError as exc:
+            # needs to be after more-specific errors, like ClientPayloadError
+            self.log.warning("HTTP client error", exc=str(exc))
         except asyncio.TimeoutError:
-            # this is raised internally in RecentChangeSource's __anext__ through a
-            # aiohttp_sse_client.client -> aiohttp.streams chain
+            # this is raised internally in EventSource via aiohttp.streams
             # (self._response.content -> self.read_func() -> self.readuntil() -> ...)
             #
             # We handle by ignoring the exception, returning, and expecting to reconnect
-            self.log.debug("SSE timeout, reconnecting")
+            self.log.debug("SSE timeout")
         except asyncio.CancelledError:
             # handle cancellations e.g. due to a KeyboardInterrupt. Raise to break the loop.
             raise
         except Exception:
-            self.log.critical("Unknown SSE error", exc_info=True)
-            # ignore the error, so that the loop restarts
+            self.log.warning("Unknown SSE error", exc_info=True)
+        finally:
+            await events.close()
 
-    async def parse_event(self, event: aiohttp_sse_client.client.MessageEvent) -> None:
+    async def parse_event(self, event: sse_client.MessageEvent) -> Any | None:
         """Parse a single SSE event."""
-        rc = RecentChangeIRCFormatter(event.data)
+        if not event or event.type != "message":
+            return None
+
+        log = logger.bind(message=event)
+        try:
+            data = json.loads(event.data)
+        except json.decoder.JSONDecodeError as exc:
+            log.warning("Could not parse JSON for message", err=str(exc))
+            return None
+
+        # Reconstruct our own version of Last-Connect-Id, from the messages' "meta":
+        #    data: { ..., meta: { ..., "topic":"...", "partition":0, "offset": NNNN } }
+        # ...as that is offset-based rather than timestamp-based (like the regular id is)
+        try:
+            meta = data["meta"]
+            last_event_id = [{key: meta[key] for key in ("topic", "partition", "offset")}]
+        except KeyError:
+            log.warn("Could not parse the message metadata")
+        else:
+            # store this for subsequent connections
+            self.last_event_id = json.dumps(last_event_id, separators=(",", ":"))
+
+        return data
+
+    async def format_and_emit(self, data: Any) -> None:
+        """Format RecentChange with IRC, and broadcast."""
+        rc = RecentChangeIRCFormatter(data)
         channel, text = rc.channel, rc.ircstr
         if not channel or not text:
             # e.g. not a message type that is emitted
