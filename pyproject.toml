@@ -40,7 +40,8 @@ dependencies = [
     "structlog>=22.3.0",
 ]
 optional-dependencies.sse = [
-    "aiohttp-sse-client==0.2.1",
+    "aiohttp",
+    "multidict",
 ]
 optional-dependencies.tests = [
     "ircstream[sse]",
