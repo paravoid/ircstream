@@ -106,7 +106,6 @@ def prometheus_metric(metric: str) -> float:
         if line.startswith("#"):
             continue
         key, value = line.split(" ", maxsplit=1)
-
         if key == metric:
             return float(value)
     return 0.0
@@ -169,6 +168,7 @@ def test_out_of_the_box() -> None:
         ircclient = spawn_client_process("#channel", received_counter)
         ircclients.append(ircclient)
     assert prometheus_metric("ircstream_clients") == float(client_count)
+    assert prometheus_metric('ircstream_clients_per_channel{channel="#channel"}') == float(client_count)
 
     # send a burst of RC2UDP messages and wait a bit to make sure they're processed
     send_to_rc2udp("#channel", message_count)
@@ -183,6 +183,7 @@ def test_out_of_the_box() -> None:
 
     # check again to verify no new channels were created and no clients were dropped
     assert prometheus_metric("ircstream_clients") == float(client_count)
+    assert prometheus_metric('ircstream_clients_per_channel{channel="#channel"}') == float(client_count)
     assert prometheus_metric("ircstream_channels") == 1
 
     # terminate all the clients (abruptly)
@@ -192,4 +193,5 @@ def test_out_of_the_box() -> None:
 
     # verify a) client count dropped to zero b) the channel did not disappear
     assert prometheus_metric("ircstream_clients") == 0
+    assert prometheus_metric('ircstream_clients_per_channel{channel="#channel"}') == 0
     assert prometheus_metric("ircstream_channels") == 1

@@ -782,6 +782,9 @@ class IRCServer:
             "channels": Gauge("ircstream_channels", "Number of IRC channels", registry=registry),
             "messages": Counter("ircstream_messages", "Count of RC messages broadcasted", registry=registry),
             "errors": Counter("ircstream_errors", "Count of errors and exceptions", ["type"], registry=registry),
+            "clients_per_channel": Gauge(
+                "ircstream_clients_per_channel", "Number of clients in channel", ["channel"], registry=registry
+            ),
         }
         self.metrics["channels"].set_function(lambda: len(self._channels))
         self.metrics_registry = registry
@@ -811,10 +814,12 @@ class IRCServer:
     def subscribe(self, channel: str, client: IRCClient) -> None:
         """Subscribe a client to broadcasts for a particular channel."""
         self._channels[channel].add(client)
+        self.metrics["clients_per_channel"].labels(channel).inc()
 
     def unsubscribe(self, channel: str, client: IRCClient) -> None:
         """Unsubscribe a client from broadcasts for a particular channel."""
         self._channels[channel].remove(client)
+        self.metrics["clients_per_channel"].labels(channel).dec()
 
     @property
     def channels(self) -> Iterable[str]:
