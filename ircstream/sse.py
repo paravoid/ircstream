@@ -34,11 +34,10 @@ logger = structlog.get_logger()
 class SSEBroadcaster:
     """Broadcaster consuming events from SSE and broadcasting them over to IRC."""
 
-    log = structlog.get_logger("ircstream.sse.broadcaster")
-
     def __init__(self, config: configparser.SectionProxy, ircserver: IRCServer) -> None:
         self.ircserver = ircserver
         self.url = config.get("url", "https://stream.wikimedia.org/v2/stream/recentchange")
+        self.log = logger.bind()
         self.log.info("Listening for SSE Events", sse_url=self.url)
         self.last_event_id = ""
 
