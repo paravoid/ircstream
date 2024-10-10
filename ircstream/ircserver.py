@@ -21,7 +21,7 @@ import enum
 import errno
 import re
 import socket
-from collections.abc import Iterable, Sequence
+from collections.abc import Coroutine, Iterable, Sequence
 from typing import Any
 
 import prometheus_client
@@ -215,7 +215,13 @@ class IRCClient:
         self.channels: set[str] = set()
         self.host: str = ""
         self.port: int = 0
-        self._periodic_ping_task: asyncio.Task[Any] | None = None
+        self._background_tasks: set[asyncio.Task[Any]] = set()
+
+    def create_background_task(self, coro: Coroutine[Any, Any, None]) -> None:
+        """Spawn a background attached to this client."""
+        task = asyncio.create_task(coro)
+        self._background_tasks.add(task)
+        task.add_done_callback(self._background_tasks.discard)
 
     async def connect(self) -> None:
         """Handle a new connection from a client."""
@@ -228,8 +234,8 @@ class IRCClient:
         self.log = self.log.bind(ip=self.host, port=self.port)
         self.log.info("Client connected")
         self.server.metrics["clients"].inc()
-        self._periodic_ping_task = asyncio.create_task(self._periodic_ping())
 
+        self.create_background_task(self._periodic_ping())
         await self._handle_forever()
 
     async def terminate(self) -> None:
@@ -746,13 +752,14 @@ class IRCClient:
         """
         for channel in self.channels:
             self.server.unsubscribe(channel, self)
-        if self._periodic_ping_task:
+
+        for task in self._background_tasks.copy():
             try:
-                self._periodic_ping_task.cancel()
-                await self._periodic_ping_task  # give a chance to the task to cancel
+                task.cancel()
+                await task  # give a chance to the task to cancel
             except asyncio.CancelledError:
                 pass
-            self._periodic_ping_task = None
+
         self.server.metrics["clients"].dec()
         self.log.info("Client disconnected")
 
