@@ -129,6 +129,7 @@ class IRCMessage:
     command: str
     params: Sequence[str]
     source: str | None = None
+    force_colon: bool = False
 
     @classmethod
     def from_message(cls, message: str) -> IRCMessage:
@@ -177,7 +178,7 @@ class IRCMessage:
             base = []
             for arg in self.params:
                 casted = str(arg)
-                if casted and " " not in casted and casted[0] != ":":
+                if not self.force_colon and casted and " " not in casted and casted[0] != ":":
                     base.append(casted)
                 else:
                     base.append(":" + casted)
@@ -316,7 +317,12 @@ class IRCClient:
             else:
                 params.insert(0, "*")
 
-        msg = IRCMessage(str(command), params, source)
+        # Many servers send PING messages with a colon (PING :foo), even though
+        # that's not technically required. In turn, certain client libraries,
+        # like SmartIrc4net, tend to expect that, and break when a colon is not sent.
+        force_colon = command == "PING"
+
+        msg = IRCMessage(str(command), params, source, force_colon=force_colon)
         await self.send(str(msg))
 
     async def _handle_forever(self) -> None:
