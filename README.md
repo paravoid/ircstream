@@ -39,6 +39,8 @@ response to ongoing difficulties with the deprecation of the `irc.wikimedia.org`
 for a few years, and saw its first release in May 2020, as part of a renewed effort to [migrate the internal
 architecture to EventStreams' backend](https://phabricator.wikimedia.org/T234234).
 
+As of October 2024, `ircstream` is the software powering the `irc.wikimedia.org` service.
+
 # Requirements
 
 Python 3.11+, plus the following modules from PyPI or your distribution:
