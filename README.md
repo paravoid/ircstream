@@ -13,10 +13,6 @@ connected clients, create channels, or speak on them.
 Other clients are not visible on channel lists, /who etc. The sole exception is a (fake) bot user, that emits the recent
 changes feed, and which is also embedded in the server (i.e. it's not a real client).
 
-It is **not recommended** to use this gateway in new projects. Instead, Wikimedia's [EventStreams
-service](https://wikitech.wikimedia.org/wiki/EventStreams) can be used, which streams recent changes in JSON using a
-well defined schema and over the SSE protocol.
-
 # Usage
 
 The software requires a configuration file, `ircstream.conf`. An example file is provided with this distribution and
@@ -30,16 +26,12 @@ It currently requires messages to be broadcast over UDP to a specified port usin
 UDP message is expected to be a channel name, followed by a tab character, followed by the message to be sent to all
 clients.
 
-Future versions will support ingesting over the EventStream service using SSE.
-
 # History
 
 The idea for this project was originally conceived in November 2016 internally at the Wikimedia Foundation, as a
-response to ongoing difficulties with the deprecation of the `irc.wikimedia.org` gateway. It was developed on and off
-for a few years, and saw its first release in May 2020, as part of a renewed effort to [migrate the internal
-architecture to EventStreams' backend](https://phabricator.wikimedia.org/T234234).
-
-As of October 2024, `ircstream` is the software powering the `irc.wikimedia.org` service.
+response to ongoing difficulties with the deprecation of the `irc.wikimedia.org` gateway. It has been developed on and
+off since then, saw its first release in May 2020, and it was finally deployed in production to replace the aging
+`irc.wikimedia.org` infrastructure in October 2024.
 
 # Requirements
 
