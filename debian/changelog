@@ -1,3 +1,9 @@
+ircstream (1.0.1~dev) UNRELEASED; urgency=medium
+
+  * New release.
+
+ -- Faidon Liambotis <paravoid@debian.org>  Mon, 28 Oct 2024 18:44:20 +0200
+
 ircstream (1.0) unstable; urgency=medium
 
   * New release.
