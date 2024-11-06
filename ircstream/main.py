@@ -104,7 +104,7 @@ def configure_logging(log_format: str) -> None:
     root_logger = logging.getLogger()
     root_logger.addHandler(handler)
     # default level, only for events emitted before the config is parsed
-    root_logger.setLevel(logging.WARN)
+    root_logger.setLevel(logging.WARNING)
 
 
 def configure_log_levels(override_level: str | int | None, config: configparser.SectionProxy | None = None) -> None:
