@@ -108,19 +108,27 @@ lint.select = [
     "N",      # pep8-naming
     "D",      # pycodestyle
     "UP",     # pyupgrade
+    "YTT",    # flake8-2020
+    "ASYNC",  # flake8-async
     "S",      # flake8-bandit
     "B",      # flake8-bugbear
     "A",      # flake8-builtins
     "C4",     # flake8-comprehensions
     "DTZ",    # flake8-datetimez
     "T10",    # flake8-debugger
+    "FA",     # flake8-future-annotations
     "ISC",    # flake8-implicit-str-concat
+    "ICN",    # flake8-import-conventions
+    "LOG",    # flake8-logging
     "PIE",    # flake8-pie
     "T20",    # flake8-print
     "PT",     # flake8-pytest-style
     "RSE",    # flake8-raise
+    "SLF",    # flake8-self
+    "TID",    # flake8-tidy-imports
     "PTH",    # flake8-use-pathlib
     "ERA",    # eradicate
+    "FURB",   # refurb
     "RUF",    # Ruff-specific rules
 ]
 lint.ignore = [
