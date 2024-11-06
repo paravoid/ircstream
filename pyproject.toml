@@ -98,30 +98,30 @@ profile = "black"
 line-length = 120
 target-version = "py39"
 lint.select = [
-    "F",    # Pyflakes
-    "E",    # pycodestyle Error
-    "W",    # pycodestyle Warning
-    "I",    # isort
-    "PLE",  # Pylint Errors
-    "PLW",  # Pylint Warning
-    "PLC",  # Pylint Conventions
-    "N",    # pep8-naming
-    "D",    # pycodestyle
-    "UP",   # pyupgrade
-    "S",    # flake8-bandit
-    "B",    # flake8-bugbear
-    "DTZ",  # flake8-datetimez
-    "A",    # flake8-builtins
-    "C4",   # flake8-comprehensions
-    "T10",  # flake8-debugger
-    "ISC",  # flake8-implicit-str-concat
-    "PIE",  # flake8-pie
-    "T20",  # flake8-print
-    "PT",   # flake8-pytest-style
-    "RSE",  # flake8-raise
-    "PTH",  # flake8-use-pathlib
-    "ERA",  # eradicate
-    "RUF",  # Ruff-specific rules
+    "F",      # Pyflakes
+    "E",      # pycodestyle Error
+    "W",      # pycodestyle Warning
+    "I",      # isort
+    "PLE",    # Pylint Errors
+    "PLW",    # Pylint Warning
+    "PLC",    # Pylint Conventions
+    "N",      # pep8-naming
+    "D",      # pycodestyle
+    "UP",     # pyupgrade
+    "S",      # flake8-bandit
+    "B",      # flake8-bugbear
+    "A",      # flake8-builtins
+    "C4",     # flake8-comprehensions
+    "DTZ",    # flake8-datetimez
+    "T10",    # flake8-debugger
+    "ISC",    # flake8-implicit-str-concat
+    "PIE",    # flake8-pie
+    "T20",    # flake8-print
+    "PT",     # flake8-pytest-style
+    "RSE",    # flake8-raise
+    "PTH",    # flake8-use-pathlib
+    "ERA",    # eradicate
+    "RUF",    # Ruff-specific rules
 ]
 lint.ignore = [
     "D107", # Missing docstring in `__init__`
