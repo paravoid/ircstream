@@ -856,7 +856,7 @@ class IRCServer:
         self._channels[channel].remove(client)
 
     @property
-    def channels(self) -> Iterable[str]:
+    def channels(self) -> list[str]:
         """Return a list of all the channel names known to the server."""
         return list(self._channels)
 
