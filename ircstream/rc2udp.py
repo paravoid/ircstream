@@ -29,9 +29,9 @@ class RC2UDPHandler(asyncio.Protocol):
     """A handler implementing the RC2UDP protocol, as used by MediaWiki."""
 
     def __init__(self, server: RC2UDPServer) -> None:
+        self.log = logger.bind()
         self.server = server
         self.running_tasks: set[asyncio.Task[Any]] = set()
-        self.log = logger.bind()
 
     def datagram_received(self, data: bytes, _: tuple[str, int]) -> None:
         """Receive a new RC2UDP message and broadcast to all clients."""
@@ -54,10 +54,10 @@ class RC2UDPServer:
     """A server implementing the RC2UDP protocol, as used by MediaWiki."""
 
     def __init__(self, config: configparser.SectionProxy, ircserver: IRCServer) -> None:
+        self.log = logger.bind()
         self.ircserver = ircserver
         self.address = config.get("listen_address", fallback="::")
         self.port = config.getint("listen_port", fallback=9390)
-        self.log = logger.bind()
 
     async def serve(self) -> None:
         """Create a new socket, listen to it and serve requests."""
