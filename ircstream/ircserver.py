@@ -290,7 +290,7 @@ class IRCClient:
             finally:
                 self._bot_message_queue.task_done()
 
-    async def msg(self, command: str | IRCNumeric, params: list[str] | str, from_bot: bool = False) -> None:
+    async def msg(self, command: str | IRCNumeric, params: list[str] | str, *, from_bot: bool = False) -> None:
         """Prepare and sends a response to the client.
 
         This generally does the right thing, and reduces boilerplate by
