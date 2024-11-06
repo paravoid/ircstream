@@ -562,7 +562,7 @@ class IRCClient:
         await self.msg(RPL.WELCOME, "Welcome to IRCStream")
         await self.msg(RPL.YOURHOST, f"Your host is {self.server.servername}, running version {__version__}")
         await self.msg(RPL.CREATED, f"This server was created {self.server.boot_time:%c} UTC")
-        await self.msg(RPL.MYINFO, f"{self.server.servername} {__version__} i {''.join(cmodes)}")
+        await self.msg(RPL.MYINFO, [self.server.servername, __version__, "i", "".join(cmodes)])
         await self.msg(
             RPL.ISUPPORT,
             [
