@@ -33,9 +33,10 @@ class MockIRCServer:
         """Wait until the event triggers."""
         try:
             await asyncio.wait_for(self._event.wait(), timeout)
-            return True
         except asyncio.TimeoutError:
             return False
+        else:
+            return True
 
     def clear(self) -> None:
         """Clear accumulated messages and the associated event."""
