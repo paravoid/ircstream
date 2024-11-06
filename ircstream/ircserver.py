@@ -771,7 +771,7 @@ class IRCClient:
         """Return the internal (non-wire-protocol) client identifier."""
         host_port = f"[{self.host}]:{self.port}"
         if not self.registered:
-            return f"anonymous/{host_port}"
+            return f"unregistered/{host_port}"
         return f"{self.nick}!{self.user}/{host_port}"
 
     async def finish(self) -> None:
