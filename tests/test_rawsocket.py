@@ -16,6 +16,8 @@ import pytest
 
 from ircstream.ircserver import IRCClient, IRCServer
 
+pytestmark = pytest.mark.asyncio(loop_scope="module")
+
 
 class BareClient:
     """Bare client around socket operations to support a line-based protocol."""

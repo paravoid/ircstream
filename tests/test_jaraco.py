@@ -14,6 +14,8 @@ if TYPE_CHECKING:
 
 BOTNAME = "testsuite-bot"
 
+pytestmark = pytest.mark.asyncio(loop_scope="module")
+
 
 @pytest.fixture(name="ircclient")
 async def ircclient_instance(ircserver: IRCServer) -> AsyncGenerator[IRCClientAio, None]:
@@ -27,7 +29,6 @@ async def ircclient_instance(ircserver: IRCServer) -> AsyncGenerator[IRCClientAi
     assert await ircclient.expect("error")
 
 
-@pytest.mark.asyncio
 @pytest.mark.usefixtures("ircserver")
 async def test_ping(ircclient: IRCClientAio) -> None:
     """Test the PING command."""
@@ -37,6 +38,7 @@ async def test_ping(ircclient: IRCClientAio) -> None:
     assert await ircclient.expect("noorigin")
 
 
+@pytest.mark.usefixtures("ircserver")
 async def test_pong(ircserver_short_timeout: IRCServer, ircclient: IRCClientAio) -> None:
     """Test the PONG command (a server-side ping)."""
     wait_for = (ircserver_short_timeout.client_timeout / 2) + 1

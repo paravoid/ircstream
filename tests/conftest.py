@@ -5,12 +5,14 @@ from __future__ import annotations
 import asyncio
 import configparser
 import logging
-from collections.abc import AsyncGenerator, Generator
+from collections.abc import AsyncGenerator
 
 import pytest
 import structlog
 
 from ircstream.ircserver import IRCClient, IRCServer
+
+pytestmark = pytest.mark.asyncio(loop_scope="module")
 
 
 @pytest.fixture(autouse=True)
@@ -56,14 +58,6 @@ def fixture_config(request: pytest.FixtureRequest) -> configparser.ConfigParser:
         """
     )
     return config
-
-
-@pytest.fixture(name="event_loop", scope="module")
-def fixture_event_loop() -> Generator[asyncio.AbstractEventLoop, None, None]:
-    """Override for pytest-asyncio's event_loop fixture to scope it as module."""
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
 
 
 @pytest.fixture(name="ircserver", scope="module")
