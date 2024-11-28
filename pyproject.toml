@@ -49,13 +49,13 @@ optional-dependencies.tests = [
 ]
 optional-dependencies.type = [
     "ircstream[tests]",
-    "mypy==1.11.2",
+    "mypy==1.13.0",
     "types-PyYAML",
 ]
 optional-dependencies.lint = [
     "ircstream[tests]",
-    "validate-pyproject[all]==0.13",
-    "ruff==0.7.2",
+    "validate-pyproject[all]==0.23",
+    "ruff==0.8.0",
 ]
 optional-dependencies.dev = [
     "ircstream[tests]",
