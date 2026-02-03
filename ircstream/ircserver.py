@@ -232,8 +232,7 @@ class IRCClient:
         client_address = self.writer.get_extra_info("peername")
         self.host, self.port = client_address[:2]
         # trim IPv4 mapped prefix
-        if self.host.startswith("::ffff:"):
-            self.host = self.host[len("::ffff:") :]
+        self.host = self.host.removeprefix("::ffff:")
 
         self.log = self.log.bind(ip=self.host, port=self.port)
         self.log.info("Client connected")

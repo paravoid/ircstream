@@ -136,7 +136,7 @@ async def start_servers(config: configparser.ConfigParser) -> None:
             raise SystemExit(-1)
 
         if "rc2udp" in config:
-            from .rc2udp import RC2UDPServer
+            from .rc2udp import RC2UDPServer  # noqa: PLC0415
 
             rc2udp_coro = RC2UDPServer(config["rc2udp"], ircserver).serve()
             rc2udp_task = asyncio.create_task(rc2udp_coro)
@@ -146,7 +146,7 @@ async def start_servers(config: configparser.ConfigParser) -> None:
             logger.warning("RC2UDP is not enabled in the config; server usefulness may be limited")
 
         if "prometheus" in config:
-            from .prometheus import PrometheusServer
+            from .prometheus import PrometheusServer  # noqa: PLC0415
 
             prom_server = PrometheusServer(config["prometheus"], ircserver.metrics_registry)
             prom_server.socket.setblocking(False)

@@ -76,7 +76,7 @@ def test_configure_logging_json(caplog: pytest.LogCaptureFixture) -> None:
     caplog.clear()
     log.warning("this is a json log", key="value")
 
-    capevents, caplogs = parse_caplog(caplog)
+    _capevents, caplogs = parse_caplog(caplog)
     parsed_logs = [json.loads(log) for log in caplogs]
     assert all("this is a json log" in parsed["event"] for parsed in parsed_logs)
     assert all("value" == parsed["key"] for parsed in parsed_logs)
@@ -92,7 +92,7 @@ def test_default_logging_levels(caplog: pytest.LogCaptureFixture) -> None:
         for level in ("info", "warning", "debug"):
             getattr(logger, level)(f"{level} log from {name}")
 
-    capevents, _ = parse_caplog(caplog)
+    capevents, _caplogs = parse_caplog(caplog)
     # * root, and thus testlogger, is at WARN
     assert "debug log from testlogger" not in capevents
     assert "info log from testlogger" not in capevents
@@ -123,7 +123,7 @@ def test_config_logging_levels(caplog: pytest.LogCaptureFixture) -> None:
         for level in ("info", "warning", "debug"):
             getattr(logger, level)(f"{level} log from {name}")
 
-    capevents, _ = parse_caplog(caplog)
+    capevents, _caplogs = parse_caplog(caplog)
     # * root, and thus testlogger, is now at ERROR
     assert "debug log from testlogger" not in capevents
     assert "info log from testlogger" not in capevents

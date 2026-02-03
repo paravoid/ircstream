@@ -30,7 +30,7 @@ online = [False, False]
 lock = threading.Lock()
 shutdown = threading.Event()
 
-# ruff: noqa: D101 D102 D103  # docstrings
+# ruff: noqa: D101 D102  # docstrings
 
 logger = logging.getLogger()
 
