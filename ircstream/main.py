@@ -1,7 +1,7 @@
 """Command-line executable component.
 
 Responsible for parsing the command-line arguments, the configuration file, and
-conditionally running servers imported from other components. Spaws the main
+conditionally running servers imported from other components. Spawns the main
 event loop.
 
 Provides a run() function, used by __main__ or directly.
