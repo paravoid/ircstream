@@ -149,3 +149,57 @@ lint.ignore = [
     "ASYNC109",  # Async function definition with a `timeout` parameter
     "S101",      # Use of `assert` detected
 ]
+
+[tool.tox]
+requires= ["tox>=4.23"]
+envlist = ["py311", "py311-bookworm", "type", "lint", "coverage"]
+skip_missing_interpreters = true
+
+[tool.tox.env_run_base]
+description = "run the unit tests with pytest under {env_name}"
+usedevelop = true
+extras = ["tests"]
+commands = [["pytest", "--quiet", "--cov=ircstream"]]
+parallel_show_output = true
+set_env.COVERAGE_FILE = { replace = "env", name = "COVERAGE_FILE", default = "{work_dir}{/}.coverage.{env_name}" }
+
+[tool.tox.env.py311-bookworm]
+description = "run the unit tests with pytest for Debian bookworm"
+deps = [
+    "prometheus_client==0.16.0",
+    "structlog==22.3.0",
+]
+
+[tool.tox.env.coverage]
+skip_install = true
+deps = [
+    "coverage[toml]",
+]
+setenv.COVERAGE_FILE = "{toxworkdir}/.coverage"
+commands = [
+    ["coverage", "erase"],
+    ["coverage", "combine"],
+    ["coverage", "report", "-m"],
+    ["coverage", "html", "-d", "{toxworkdir}/htmlcov"],
+]
+depends = ["py311"]
+parallel_show_output = true
+
+[tool.tox.env.type]
+description = "run type check on codebase"
+extras = ["type"]
+commands = [
+    ["mypy", "."],
+    ["ty", "check"],
+]
+parallel_show_output = true
+
+[tool.tox.env.lint]
+description = "lint the codebase"
+extras = ["lint"]
+commands = [
+    ["validate-pyproject", "pyproject.toml"],
+    ["ruff", "check"],
+    ["ruff", "format", "--check"],
+]
+parallel_show_output = true
