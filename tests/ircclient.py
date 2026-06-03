@@ -6,12 +6,12 @@ import asyncio
 import socket
 from typing import Any
 
-import irc.client  # type: ignore
-import irc.client_aio  # type: ignore
-import irc.connection  # type: ignore
+import irc.client
+import irc.client_aio
+import irc.connection
 
 
-class IRCClientAio(irc.client_aio.AioSimpleIRCClient):  # type: ignore
+class IRCClientAio(irc.client_aio.AioSimpleIRCClient):  # type: ignore[misc]
     """Basic IRC Client, used for testing.
 
     The IRC implementation is third-party, but as far as this client goes,

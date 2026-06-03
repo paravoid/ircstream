@@ -91,6 +91,10 @@ exclude_lines = [
 [tool.mypy]
 strict = true
 
+[[tool.mypy.overrides]]
+module = "irc.*"
+ignore_missing_imports = true
+
 # linters
 [tool.isort]
 profile = "black"

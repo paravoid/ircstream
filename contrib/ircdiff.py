@@ -21,8 +21,8 @@ import time
 from collections.abc import Sequence
 from typing import Any, Literal
 
-import irc.client  # type: ignore
-import irc.connection  # type: ignore
+import irc.client
+import irc.connection
 
 messages: tuple[dict[str, float], dict[str, float]] = ({}, {})
 message_count = [0, 0]
@@ -36,7 +36,7 @@ shutdown = threading.Event()
 logger = logging.getLogger()
 
 
-class IRCClient(irc.client.SimpleIRCClient):  # type: ignore
+class IRCClient(irc.client.SimpleIRCClient):  # type: ignore[misc]
     def __init__(self, channel: str, side: Literal[0, 1]):
         irc.client.SimpleIRCClient.__init__(self)
         self.channel = channel
@@ -46,10 +46,10 @@ class IRCClient(irc.client.SimpleIRCClient):  # type: ignore
     def other_side(self) -> Literal[0, 1]:
         return 1 if self.this_side == 0 else 0
 
-    def on_welcome(self, connection: irc.connection.Factory, _: irc.client.Event) -> None:
+    def on_welcome(self, connection: irc.client.ServerConnection, _: irc.client.Event) -> None:
         connection.join(self.channel)
 
-    def on_pubmsg(self, _: irc.connection.Factory, event: irc.client.Event) -> None:
+    def on_pubmsg(self, _: irc.client.ServerConnection, event: irc.client.Event) -> None:
         if not event.source.startswith("rc-pmtpa"):
             return
         message = event.arguments[0]
@@ -68,7 +68,7 @@ class IRCClient(irc.client.SimpleIRCClient):  # type: ignore
             except KeyError:
                 messages[self.this_side][message] = time.time()
 
-    def on_disconnect(self, _: irc.connection.Factory, event: irc.client.Event) -> None:
+    def on_disconnect(self, _: irc.client.ServerConnection, event: irc.client.Event) -> None:
         logger.critical(f"Server {self.this_side} disconnected {event.arguments}")
         shutdown.set()
 

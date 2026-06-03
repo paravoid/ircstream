@@ -10,8 +10,8 @@ import socket
 import time
 from typing import Any
 
-import irc.client  # type: ignore
-import irc.connection  # type: ignore
+import irc.client
+import irc.connection
 import pytest
 
 import ircstream
@@ -24,7 +24,7 @@ PORTS = {
 }
 
 
-class IRCMessageCounter(irc.client.SimpleIRCClient):  # type: ignore
+class IRCMessageCounter(irc.client.SimpleIRCClient):  # type: ignore[misc]
     """Basic IRC Client, used for counting received messages.
 
     This connects, identifies, joins a channel, and then counts incoming events
