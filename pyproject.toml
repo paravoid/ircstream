@@ -24,9 +24,11 @@ readme = "README.md"
 keywords = ["irc", "mediawiki", "wikimedia"]
 license = {text = "Apache-2.0"}
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: Apache Software License",
     "Intended Audience :: Information Technology",
     "Intended Audience :: System Administrators",
