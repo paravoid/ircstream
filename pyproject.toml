@@ -49,6 +49,7 @@ optional-dependencies.tests = [
 ]
 optional-dependencies.type = [
     "ircstream[tests]",
+    "ty==0.0.42",
     "mypy==2.1.0",
     "types-PyYAML",
 ]
