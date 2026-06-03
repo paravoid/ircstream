@@ -236,7 +236,7 @@ class IRCClient:
 
         self.log = self.log.bind(ip=self.host, port=self.port)
         self.log.info("Client connected")
-        self.server.metrics["clients"].inc()
+        self.server.metrics.clients.inc()
 
         self.create_background_task(self._periodic_ping())
         self.create_background_task(self._bot_message_queue_processor())
@@ -284,7 +284,7 @@ class IRCClient:
             try:
                 await self.msg("PRIVMSG", [target, msg], from_bot=True)
             except Exception:
-                self.server.metrics["errors"].labels("broadcast_send").inc()
+                self.server.metrics.errors.labels("broadcast_send").inc()
                 self.log.debug("Unable to dequeue broadcast", exc_info=True)
             finally:
                 self._bot_message_queue.task_done()
@@ -375,7 +375,7 @@ class IRCClient:
         except UnicodeDecodeError:
             return
         except Exception as exc:
-            self.server.metrics["errors"].labels("ise").inc()
+            self.server.metrics.errors.labels("ise").inc()
             await self.msg("ERROR", f"Internal server error ({exc})")
             self.log.exception("Internal server error")
 
@@ -790,7 +790,7 @@ class IRCClient:
             except asyncio.CancelledError:
                 pass
 
-        self.server.metrics["clients"].dec()
+        self.server.metrics.clients.dec()
         self.log.info("Client disconnected")
 
     def __repr__(self) -> str:
@@ -815,13 +815,21 @@ class IRCServer:
 
         # set up a few Prometheus metrics
         registry = prometheus_client.CollectorRegistry()
-        self.metrics: dict[str, Any[Gauge, Counter]] = {
-            "clients": Gauge("ircstream_clients", "Number of IRC clients", registry=registry),
-            "channels": Gauge("ircstream_channels", "Number of IRC channels", registry=registry),
-            "messages": Counter("ircstream_messages", "Count of RC messages broadcasted", registry=registry),
-            "errors": Counter("ircstream_errors", "Count of errors and exceptions", ["type"], registry=registry),
-        }
-        self.metrics["channels"].set_function(lambda: len(self._channels))
+
+        @dataclasses.dataclass(frozen=True)
+        class MetricsDict:
+            clients: Gauge
+            channels: Gauge
+            messages: Counter
+            errors: Counter
+
+        self.metrics = MetricsDict(
+            clients=Gauge("ircstream_clients", "Number of IRC clients", registry=registry),
+            channels=Gauge("ircstream_channels", "Number of IRC channels", registry=registry),
+            messages=Counter("ircstream_messages", "Count of RC messages broadcasted", registry=registry),
+            errors=Counter("ircstream_errors", "Count of errors and exceptions", ["type"], registry=registry),
+        )
+        self.metrics.channels.set_function(lambda: len(self._channels))
         self.metrics_registry = registry
 
         self.address = config.get("listen_address", fallback="::")
@@ -874,11 +882,11 @@ class IRCServer:
             try:
                 client.enqueue_bot_message(target, msg)
             except asyncio.QueueFull:
-                self.metrics["errors"].labels("queue_overrun").inc()
+                self.metrics.errors.labels("queue_overrun").inc()
                 self.log.debug("Client queue overrun", client=client.internal_ident)
                 continue  # client is losing messages, but other clients should not suffer
             except Exception:
-                self.metrics["errors"].labels("broadcast_enqueue").inc()
+                self.metrics.errors.labels("broadcast_enqueue").inc()
                 self.log.warning("Unable to enqueue broadcast", client=client.internal_ident, exc_info=True)
                 continue  # ignore all exceptions, to catch corner cases
-        self.metrics["messages"].inc()
+        self.metrics.messages.inc()

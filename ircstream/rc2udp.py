@@ -41,7 +41,7 @@ class RC2UDPHandler(asyncio.Protocol):
             channel = channel.strip()
             text = text.lstrip().replace("\r", "").replace("\n", "")
         except Exception:
-            self.server.ircserver.metrics["errors"].labels("rc2udp-parsing").inc()
+            self.server.ircserver.metrics.errors.labels("rc2udp-parsing").inc()
             return
 
         self.log.debug("Broadcasting message", channel=channel, message=text)
