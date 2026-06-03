@@ -22,6 +22,7 @@ from collections.abc import Sequence
 from typing import Any, Literal
 
 import irc.client  # type: ignore
+import irc.connection  # type: ignore
 
 messages: tuple[dict[str, float], dict[str, float]] = ({}, {})
 message_count = [0, 0]

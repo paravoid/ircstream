@@ -30,7 +30,7 @@ from .ircserver import IRCServer
 logger = structlog.get_logger()
 
 # holder for strong references to pending tasks; remove when the minimum CPython version is one with PR#121264
-background_tasks = set()
+background_tasks: set[asyncio.Task[None]] = set()
 
 
 def parse_args(argv: Sequence[str] | None) -> argparse.Namespace:
@@ -154,7 +154,8 @@ async def start_servers(config: configparser.ConfigParser) -> None:
 
         await asyncio.wait_for(irc_task, timeout=None)  # run forever
     except OSError as exc:
-        logger.critical(f"System error: {exc.strerror}", errno=errno.errorcode[exc.errno])
+        errname = errno.errorcode.get(exc.errno, "UNKNOWN") if exc.errno is not None else "UNKNOWN"
+        logger.critical(f"System error: {exc.strerror or exc}", errno=errname)
         raise SystemExit(-2) from exc
 
 
@@ -171,7 +172,8 @@ def run(argv: Sequence[str] | None = None) -> None:
         with options.config_file.open(encoding="utf-8") as config_fh:
             config.read_file(config_fh)
     except OSError as exc:
-        logger.critical(f"Cannot open configuration file: {exc.strerror}", errno=errno.errorcode[exc.errno])
+        errname = errno.errorcode.get(exc.errno, "UNKNOWN") if exc.errno is not None else "UNKNOWN"
+        logger.critical(f"Cannot open configuration file: {exc.strerror or exc}", errno=errname)
         raise SystemExit(-1) from exc
     except configparser.Error as exc:
         msg = repr(exc).replace("\n", " ")  # configparser exceptions sometimes include newlines
