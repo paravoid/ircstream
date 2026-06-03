@@ -29,7 +29,7 @@ class IRCClientAio(irc.client_aio.AioSimpleIRCClient):  # type: ignore[misc]
             kwargs["connect_factory"] = irc.connection.AioFactory(family=socket.AF_INET6)
         await self.connection.connect(*args, **kwargs)
 
-    def _dispatcher(self, _: irc.connection.Factory, event: irc.client.Event) -> None:
+    def _dispatcher(self, connection: irc.connection.Factory, event: irc.client.Event) -> None:
         """Handle callbacks for all events.
 
         Just shoves incoming events into a simple queue.
