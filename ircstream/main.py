@@ -73,7 +73,6 @@ def configure_logging(log_format: str) -> None:
         structlog.stdlib.add_log_level,
         structlog.stdlib.add_logger_name,
         structlog.processors.StackInfoRenderer(),
-        structlog.processors.format_exc_info,
     ]
 
     if timestamper:
