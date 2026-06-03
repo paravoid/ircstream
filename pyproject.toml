@@ -54,8 +54,8 @@ optional-dependencies.type = [
 ]
 optional-dependencies.lint = [
     "ircstream[tests]",
-    "validate-pyproject[all]==0.23",
-    "ruff==0.15.0",
+    "validate-pyproject[all]==0.25",
+    "ruff==0.15.15",
 ]
 optional-dependencies.dev = [
     "ircstream[tests]",
