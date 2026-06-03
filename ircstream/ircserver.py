@@ -212,7 +212,7 @@ class IRCClient:
         self.writer = writer
 
         self.log = logger.new()
-        self.signon = datetime.datetime.now(tz=datetime.timezone.utc)
+        self.signon = datetime.datetime.now(tz=datetime.UTC)
         self.last_heard = self.signon
         self.user, self.realname, self.nick = "", "", ""
         self.channels: set[str] = set()
@@ -259,7 +259,7 @@ class IRCClient:
 
             # if we haven't heard from the client in N seconds, disconnect
             timeout = self.server.client_timeout
-            delta = datetime.datetime.now(tz=datetime.timezone.utc) - self.last_heard
+            delta = datetime.datetime.now(tz=datetime.UTC) - self.last_heard
             if delta > datetime.timedelta(seconds=timeout):
                 await self.msg("ERROR", "Closing Link: (Ping timeout)")
                 await self.terminate()
@@ -605,7 +605,7 @@ class IRCClient:
 
     async def handle_pong(self, _: list[str]) -> None:
         """Handle client PONG responses to keep the connection alive."""
-        self.last_heard = datetime.datetime.now(tz=datetime.timezone.utc)
+        self.last_heard = datetime.datetime.now(tz=datetime.UTC)
 
     async def handle_join(self, params: list[str]) -> None:
         """Handle the JOIN command."""
@@ -809,7 +809,7 @@ class IRCServer:
         self.topic_tmpl = config.get("topic_tmpl", "Stream for topic {channel}")
         self.welcome_msg = config.get("welcome_msg", "Welcome!")
 
-        self.boot_time = datetime.datetime.now(tz=datetime.timezone.utc)
+        self.boot_time = datetime.datetime.now(tz=datetime.UTC)
         self._channels: dict[str, set[IRCClient]] = {}
         self.client_timeout = 180
 

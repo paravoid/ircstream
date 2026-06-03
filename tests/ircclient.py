@@ -47,7 +47,7 @@ class IRCClientAio(irc.client_aio.AioSimpleIRCClient):  # type: ignore
             try:
                 # break if no messages have been received for a given timeout
                 event = await asyncio.wait_for(self.events.get(), timeout)
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 break
 
             # match the given type + other criteria (source, target, arguments)

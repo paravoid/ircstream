@@ -35,7 +35,7 @@ class MockIRCServer:
         """Wait until the event triggers."""
         try:
             await asyncio.wait_for(self._event.wait(), timeout)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return False
         else:
             return True

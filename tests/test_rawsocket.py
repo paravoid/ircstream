@@ -8,8 +8,8 @@ manually, using a raw socket.
 from __future__ import annotations
 
 import asyncio
-from collections.abc import AsyncGenerator, Sequence
-from typing import Any, Callable
+from collections.abc import AsyncGenerator, Callable, Sequence
+from typing import Any
 from unittest.mock import patch
 
 import pytest
@@ -44,7 +44,7 @@ class BareClient:
             try:
                 line = await asyncio.wait_for(self.readline(), 0.1)
                 output.append(line)
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 break
 
         return output
