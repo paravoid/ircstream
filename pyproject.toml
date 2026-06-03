@@ -41,29 +41,32 @@ dependencies = [
     "prometheus_client>=0.16.0",
     "structlog>=22.3.0",
 ]
-optional-dependencies.tests = [
+
+[dependency-groups]
+coverage = [
     "coverage[toml]",
+]
+tests = [
+    {include-group = "coverage"},
     "pytest",
     "pytest-cov",
     "pytest-asyncio",
     "irc",
     "pyyaml",
 ]
-optional-dependencies.type = [
-    "ircstream[tests]",
+type = [
     "ty==0.0.42",
     "mypy==2.1.0",
     "types-PyYAML",
 ]
-optional-dependencies.lint = [
-    "ircstream[tests]",
+lint = [
     "validate-pyproject[all]==0.25",
     "ruff==0.15.15",
 ]
-optional-dependencies.dev = [
-    "ircstream[tests]",
-    "ircstream[type]",
-    "ircstream[lint]",
+dev = [
+    {include-group = "tests"},
+    {include-group = "type"},
+    {include-group = "lint"},
 ]
 
 [project.urls]
@@ -157,7 +160,7 @@ skip_missing_interpreters = true
 [tool.tox.env_run_base]
 description = "run the unit tests with pytest under {env_name}"
 usedevelop = true
-extras = ["tests"]
+dependency_groups = ["tests"]
 commands = [["pytest", "--quiet", "--cov=ircstream"]]
 parallel_show_output = true
 set_env.COVERAGE_FILE = { replace = "env", name = "COVERAGE_FILE", default = "{work_dir}{/}.coverage.{env_name}" }
@@ -171,9 +174,7 @@ deps = [
 
 [tool.tox.env.coverage]
 skip_install = true
-deps = [
-    "coverage[toml]",
-]
+dependency_groups = ["coverage"]
 setenv.COVERAGE_FILE = "{toxworkdir}/.coverage"
 commands = [
     ["coverage", "erase"],
@@ -186,7 +187,7 @@ parallel_show_output = true
 
 [tool.tox.env.type]
 description = "run type check on codebase"
-extras = ["type"]
+dependency_groups = ["tests", "type"]
 commands = [
     ["mypy", "."],
     ["ty", "check"],
@@ -195,7 +196,7 @@ parallel_show_output = true
 
 [tool.tox.env.lint]
 description = "lint the codebase"
-extras = ["lint"]
+dependency_groups = ["lint"]
 commands = [
     ["validate-pyproject", "pyproject.toml"],
     ["ruff", "check"],
