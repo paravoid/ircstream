@@ -44,15 +44,15 @@ class IRCMessageCounter(irc.client.SimpleIRCClient):  # type: ignore[misc]
             kwargs["connect_factory"] = irc.connection.Factory(ipv6=True)
         super().connect(*args, **kwargs)
 
-    def on_welcome(self, connection: irc.connection.Factory, _: irc.client.Event) -> None:
+    def on_welcome(self, connection: irc.client.ServerConnection, _: irc.client.Event) -> None:
         """Join the channel immediately after identifying."""
         connection.join(self.channel)
 
-    def on_join(self, _: irc.connection.Factory, __: irc.client.Event) -> None:
+    def on_join(self, _: irc.client.ServerConnection, __: irc.client.Event) -> None:
         """Set the ready event after a channel was joined."""
         self.ready.set()
 
-    def on_pubmsg(self, _: irc.connection.Factory, __: irc.client.Event) -> None:
+    def on_pubmsg(self, _: irc.client.ServerConnection, __: irc.client.Event) -> None:
         """Increase the received counter after a message was received."""
         with self.received.get_lock():
             self.received.value += 1
