@@ -251,7 +251,11 @@ class IRCClient:
             if exc.errno != errno.ENOTCONN:
                 self.log.debug("Unknown error in terminate", errno=exc.errno)
         self.writer.close()
-        await self.writer.wait_closed()
+
+        try:
+            await self.writer.wait_closed()
+        except OSError:  # ConnectionResetError, BrokenPipeError, etc.
+            pass
 
     async def _periodic_ping(self) -> None:
         while True:
@@ -391,7 +395,7 @@ class IRCClient:
             await self.writer.drain()
         except UnicodeEncodeError as exc:
             self.log.debug("Internal encoding error", error=exc)
-        except (ConnectionResetError, BrokenPipeError):
+        except OSError:  # ConnectionResetError, BrokenPipeError, TimeoutError, etc.
             pass
 
     async def handle_cap(self, params: list[str]) -> None:
