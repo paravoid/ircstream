@@ -108,7 +108,7 @@ lint.select = [
     "PLW",    # Pylint Warning
     "PLC",    # Pylint Conventions
     "N",      # pep8-naming
-    "D",      # pycodestyle
+    "D",      # pydocstyle
     "UP",     # pyupgrade
     "YTT",    # flake8-2020
     "ASYNC",  # flake8-async
@@ -137,7 +137,7 @@ lint.ignore = [
     "D107", # Missing docstring in `__init__`
     "D202", # https://github.com/PyCQA/pydocstyle/issues/627
     "D203", # incompatible with D211
-    "D213", # incompatible with D213
+    "D213", # incompatible with D212
     "ISC001", # incompatible with the ruff formatter
 ]
 
