@@ -1,6 +1,5 @@
 Source: ircstream
 Section: net
-Priority: optional
 Maintainer: Faidon Liambotis <paravoid@debian.org>
 Build-Depends:
  debhelper-compat (= 13),
@@ -9,10 +8,9 @@ Build-Depends:
  python3-all,
  python3-setuptools (>= 61),
  python3-setuptools-scm,
-Standards-Version: 4.7.0
+Standards-Version: 4.7.4
 Homepage: https://github.com/paravoid/ircstream
 X-Python3-Version: >= 3.11
-Rules-Requires-Root: no
 Testsuite: autopkgtest-pkg-pybuild
 
 Package: ircstream
